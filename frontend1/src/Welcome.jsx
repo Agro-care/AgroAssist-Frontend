@@ -10,6 +10,7 @@ import './style.css';
 
 export const Welcome = ()=> {
   return (
+    <div className="MainFrame">
     <div className="Welcome1Frame">
         <div className='WelcomeText'>Welcome to Agro Assist</div>
       <WelcomeHeader></WelcomeHeader>
@@ -21,6 +22,7 @@ export const Welcome = ()=> {
       <GetStarted></GetStarted>
       
 
+    </div>
     </div>
   );
 };

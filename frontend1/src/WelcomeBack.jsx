@@ -9,6 +9,7 @@ import './style.css';
 
 export const WelcomeBack = ()=> {
   return (
+    <div className="MainFrame">
     <div className="Welcome1Frame">
         <div className='WelcomeText'>Welcome Back to Agro Assist</div>
       <WelcomeHeader></WelcomeHeader>
@@ -21,6 +22,7 @@ export const WelcomeBack = ()=> {
       
       
 
+    </div>
     </div>
   );
 };

@@ -173,3 +173,11 @@ display: inline-flex}
     font-weight: 500;
     line-height: normal;
   }
+  .MainFrame{
+    display: inline-flex;
+    padding: 310px 1500px 500px 700px;
+    flex-direction: column;
+    align-items: center;
+    gap: 170px;
+    
+  }
