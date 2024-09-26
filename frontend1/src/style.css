@@ -174,10 +174,52 @@ display: inline-flex}
     line-height: normal;
   }
   .MainFrame{
-    display: inline-flex;
-    padding: 310px 1500px 500px 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 100px;
     flex-direction: column;
     align-items: center;
     gap: 170px;
     
+  }
+  .NavFrame{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 100px;
+  }
+  .Navbar1{
+    display: flex;
+    width: 912px;
+    height: 38px;
+    padding: 8px 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    border: 1px solid #B8B8B8;
+
+    background: #EDEDED;
+  }
+
+  .NavTitle
+  {
+    color: #000;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    display: flex;
+    width: 242px;
+    height: 20px;
+    padding: 8px 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
   }

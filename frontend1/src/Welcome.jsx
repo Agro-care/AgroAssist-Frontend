@@ -6,6 +6,7 @@ import { SigninButton } from './components/SigninButton';
 import WelcomeHeader from './components/WelcomeHeader';
 import PasswordConfirm from "./components/PasswordConfirm";
 import GetStarted from "./components/GetStarted";
+import Navbar from "./components/Navbar";
 import './style.css';
 
 export const Welcome = ()=> {
@@ -13,6 +14,7 @@ export const Welcome = ()=> {
     <div className="MainFrame">
     <div className="Welcome1Frame">
         <div className='WelcomeText'>Welcome to Agro Assist</div>
+        <Navbar></Navbar>
       <WelcomeHeader></WelcomeHeader>
       <EmailForm> </EmailForm>
       <PasswordForm> </PasswordForm>
