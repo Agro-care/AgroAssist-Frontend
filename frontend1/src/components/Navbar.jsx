@@ -1,15 +1,17 @@
 import React from 'react';
-import { Link, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import "../style.css";
 
 const Navbar = () => {
     return (
         <BrowserRouter>
         <div className='NavFrame'>
         <nav className='Navbar1'>
+        <div className='NavMainTitle'>Agro care</div>
             
-                <button className='NavTitle'>Crop Recommendation</button>
-                <button className='NavTitle'>Fertilizer Recommedation</button>
-                <button className='NavTitle'>Weather Analysis</button>
+                <div className='NavTitle'>Crop Recommendation</div>
+                <div className='NavTitle'>Fertilizer Recommedation</div>
+                <div className='NavTitle'>Weather Analysis</div>
             
         </nav>
         </div>
