@@ -7,21 +7,23 @@ const Crop = () => {
   const [potassium, setPotassium] = useState("");
   const [ph, setPh] = useState("");
   const [rain, setRain] = useState("");
-  const [city, setCity] = useState("");
+  const [temperature, setTemperature] = useState("");
+  const [humidity, setHumidity] = useState("");
   const [prediction, setPrediction] = useState("");
   const [lang, setLang] = useState("en");
 
-  function onSearchSubmit(term) {
+  function onSearchSubmit() {
     setLoad(true);
     console.log("Clicked");
-    let url = "http://127.0.0.1:5000/crop-recommedation";
+    let url = "http://137.184.139.164/api/crop-recommendation/predict/";
     let body = JSON.stringify({
-      nitrogen: parseFloat(nitrogen),
-      phosphorous: parseFloat(phosphorus),
-      pottasium: parseFloat(potassium),
-      ph: parseFloat(ph),
-      rainfall: parseFloat(rain),
-      city: city,
+      Nitrogen: parseFloat(nitrogen),
+      Phosphorous: parseFloat(phosphorus), // Ensure the spelling here is consistent with backend
+      Potassium: parseFloat(potassium),
+      Temperature: parseFloat(temperature),
+      Humidity: parseFloat(humidity),
+      Ph: parseFloat(ph),
+      Rainfall: parseFloat(rain),
       lang: lang
     });
     console.log("body", body);
@@ -38,7 +40,7 @@ const Crop = () => {
         .then((data) => {
           let main_data = data["data"];
           setPrediction(main_data["prediction"]);
-          console.log("res", data); // gives SyntaxError: Unexpected end of input
+          console.log("res", data);
         })
         .catch((error) => {
           console.log(error);
@@ -53,7 +55,7 @@ const Crop = () => {
   return (
     <>
       <section className="">
-        <div className="grid place-items-center my-14  ">
+        <div className="grid place-items-center ">
           <div className="container bg-gray-100 p-10 grid place-items-center mt-14  ">
             <p className="text-2xl font-medium text-green-600 my-12">
               Predict the best crop to plant
@@ -90,60 +92,52 @@ const Crop = () => {
               </div>
             </div>
             <input
-              onChange={(e) => {
-                setNitrogen(e.target.value);
-              }}
-              className="w-3/5 my-2 required"
+              onChange={(e) => setTemperature(e.target.value)}
+              className="w-3/5 my-2 p-4 required"
               type="text"
-              placeholder="Enter the value of nitrogen"
+              placeholder="Enter the Temperature"
             />
             <input
-              onChange={(e) => {
-                setPhosphorus(e.target.value);
-              }}
-              className="w-3/5 my-2 required"
+              onChange={(e) => setHumidity(e.target.value)}
+              className="w-3/5 my-2 p-4 required"
+              type="text"
+              placeholder="Enter the value of Humidity"
+            />
+            <input
+              onChange={(e) => setNitrogen(e.target.value)}
+              className="w-3/5 my-2 p-4 required"
+              type="text"
+              placeholder="Enter the value of Nitrogen"
+            />
+            <input
+              onChange={(e) => setPhosphorus(e.target.value)}
+              className="w-3/5 my-2 p-4 required"
               type="text"
               placeholder="Enter the value of Phosphorus"
             />
             <input
-              onChange={(e) => {
-                setPotassium(e.target.value);
-              }}
-              className="w-3/5 my-2 required"
+              onChange={(e) => setPotassium(e.target.value)}
+              className="w-3/5 my-2 p-4 required"
               type="text"
               placeholder="Enter the value of Potassium"
             />
             <input
-              onChange={(e) => {
-                setPh(e.target.value);
-              }}
-              className="w-3/5 my-2 required"
+              onChange={(e) => setPh(e.target.value)}
+              className="w-3/5 my-2 p-4 required"
               type="text"
-              placeholder="Enter the soil ph value (0-14)"
+              placeholder="Enter the soil pH value (0-14)"
             />
             <input
-              onChange={(e) => {
-                setRain(e.target.value);
-              }}
-              className="w-3/5 my-2 required"
+              onChange={(e) => setRain(e.target.value)}
+              className="w-3/5 my-2 p-4 required"
               type="text"
               placeholder="Enter the rainfall gauge (in mm)"
-            />
-            <input
-              onChange={(e) => {
-                setCity(e.target.value);
-              }}
-              className="w-3/5 my-2 required"
-              type="text"
-              placeholder="Enter your city"
             />
 
             <div className="grid place-items-center mt-14 ">
               <div className="mt-2">
                 <button
-                  onClick={() => {
-                    onSearchSubmit();
-                  }}
+                  onClick={onSearchSubmit}
                   type="button"
                   className="inline-block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                 >
@@ -156,17 +150,15 @@ const Crop = () => {
 
         <div>
           {load ? (
-            <div className="grid place-items-center my-14  ">loading </div>
+            <div className="grid place-items-center my-14">loading</div>
           ) : (
             <div></div>
           )}
-          {prediction !== "" ? (
-            <div className="grid place-items-center my-14 text-center ">
+          {prediction && (
+            <div className="grid place-items-center my-14 text-center">
               <p className="font-bold my-3">Crop Predicted: </p>
               {prediction}
             </div>
-          ) : (
-            <div></div>
           )}
         </div>
       </section>

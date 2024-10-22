@@ -1,64 +1,55 @@
-
 import React, { useState } from "react";
+import axios from "axios";
 
 const Fertilizer = () => {
   const [load, setLoad] = useState(false);
+  const [temperature, setTemperature] = useState("");
   const [soilType, setSoilType] = useState("");
   const [cropType, setCropType] = useState("");
+  const [humidity, setHumidity] = useState("");
   const [moisture, setMoisture] = useState("");
   const [nitrogen, setNitrogen] = useState("");
   const [phosphorus, setPhosphorus] = useState("");
   const [potassium, setPotassium] = useState("");
   const [city, setCity] = useState("");
   const [prediction, setPrediction] = useState("");
-  const [information, setInformation] = useState("");
-  const [application, setApplication] = useState("");
-  const [specification, setSpecification] = useState("");
+  // const [information, setInformation] = useState("");
+  // const [application, setApplication] = useState("");
+  // const [specification, setSpecification] = useState("");
   const [lang, setLang] = useState("en");
-  function onSearchSubmit(term) {
-    setLoad(true);
-    console.log("Clicked");
-    let url = "http://127.0.0.1:5000/fertilizer-predict";
-    let body = JSON.stringify({
-      "soil-type": soilType,
-      "crop-type": cropType,
-      moisture: parseFloat(moisture),
-      nitrogen: parseFloat(nitrogen),
-      phosphorous: parseFloat(phosphorus),
-      pottasium: parseFloat(potassium),
-      city: city,
-      lang: lang
-    });
-    console.log("body", body);
-    try {
-      fetch(url, {
-        // mode: "no-cors",
-        method: "post",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-          "Access-Control-Allow-Origin": "*"
-        },
-        body: body
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          let main_data = data["data"];
-          setPrediction(main_data["prediction"]);
-          setInformation(main_data["info"]["info"]);
-          setApplication(
-            main_data["info"]["application"]["1"] +
-              " " +
-              main_data["info"]["application"]["2"]
-          );
-          setSpecification(main_data["info"]["specifications"]);
-          console.log("res", data); // gives SyntaxError: Unexpected end of input
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (e) {
-      console.log(e);
+  const [res, setRes] = useState();
+
+  async function fetchData(){
+    try{
+      const result = await axios.post("http://137.184.139.164/api/FRS/predict/", 
+        {
+          "data":
+          {
+            "temperature": temperature,
+            "humidity": humidity,
+            "moisture": moisture,
+            "soil": soilType,
+            "crop": cropType,
+            "nitrogen": nitrogen,
+            "potassium": potassium,
+            "phosphorous": phosphorus
+          }
+        }
+      );
+      setRes(result.data);
+      console.log(res);
+      setPrediction(result.data.Prediction);
     }
+    catch(error){
+      console.log("Error in data procesing.")
+    }
+  }
+  function onSearchSubmit() {
+    setLoad(true);
+    
+    console.log("Clicked");
+    fetchData();
+    
 
     setLoad(false);
   }
@@ -149,31 +140,43 @@ const Fertilizer = () => {
 
             <input
               onChange={(e) => setMoisture(e.target.value)}
-              className="w-3/5 my-2"
+              className="w-3/5 my-2 p-4"
               type="text"
               placeholder="Enter moisture value"
             />
             <input
               onChange={(e) => setNitrogen(e.target.value)}
-              className="w-3/5 my-2"
+              className="w-3/5 my-2 p-4"
               type="text"
               placeholder="Enter nitrogen value"
             />
             <input
               onChange={(e) => setPhosphorus(e.target.value)}
-              className="w-3/5 my-2"
+              className="w-3/5 my-2 p-4"
               type="text"
               placeholder="Enter phosphorous value"
             />
             <input
               onChange={(e) => setPotassium(e.target.value)}
-              className="w-3/5 my-2"
+              className="w-3/5 my-2 p-4"
               type="text"
               placeholder="Enter potassium value"
             />
             <input
+              onChange={(e) => setTemperature(e.target.value)}
+              className="w-3/5 my-2 p-4"
+              type="text"
+              placeholder="Enter temperature"
+            />
+            <input
+              onChange={(e) => setHumidity(e.target.value)}
+              className="w-3/5 my-2 p-4"
+              type="text"
+              placeholder="Enter humidity"
+            />
+            <input
               onChange={(e) => setCity(e.target.value)}
-              className="w-3/5 my-2"
+              className="w-3/5 my-2 p-4"
               type="text"
               placeholder="Enter city"
             />
@@ -203,13 +206,7 @@ const Fertilizer = () => {
           {prediction !== "" ? (
             <div className="grid place-items-center my-14 text-center ">
               <p className="font-bold my-3">Fertilizer Predicted: </p>
-              {prediction}
-              <p className="font-bold my-3">Information</p>
-              {information}
-              <p className="font-bold my-3">Application</p>
-              {application}
-              <p className="font-bold my-3">Specification</p>
-              {specification}
+              <strong className="border m-2 p-2">{prediction}</strong>
             </div>
           ) : (
             <div></div>
