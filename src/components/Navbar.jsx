@@ -21,8 +21,8 @@ const Navbar = ({ cartItems }) => {
         <div className="flex items-center cursor-pointer ml-auto lg:ml-16">
           <h3 className="text-md text-white font-bold opacity-[.70]">Agro Assist</h3>
         </div>
-        <div className="flex-2 w-6/12 mx-auto">
-          <ul className="flex mt-4 items-around">
+        <div className="flex-2 w-12/12 mx-auto">
+          <ul className="flex mt-8 items-around">
             <li
               onClick={() => navigate("/")}
               className="text-sm cursor-pointer font-semibold text-white hover:opacity-90 lg:ml-7 ml-6 mr-1.5"
