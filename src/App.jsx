@@ -13,6 +13,7 @@ import { Login } from "./components/login";
 import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
 import Cart from './components/Cart';
+import AdminDashboard from "./components/admin/AdminDashboard"
 
 function App() {
   const { user } = useContext(UserContext);
@@ -54,6 +55,7 @@ function App() {
             <Route path='/fertilizer' element={<Fertilizer />} />
             <Route path='/crop' element={<Crop />} />
             <Route path='/WeatherAlerts' element={<Weather />} />
+            <Route path='/admin' element={<AdminDashboard />} />
           </>
         )}
 
