@@ -1,5 +1,4 @@
-// src/App.js
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Route, Routes } from "react-router-dom";
 import './style.css';
 import HomePage from './components/HomePage';
@@ -13,58 +12,145 @@ import { Login } from "./components/login";
 import ProductList from './components/ProductList';
 import ProductPage from './components/ProductPage';
 import Cart from './components/Cart';
-import AdminDashboard from "./components/admin/AdminDashboard"
+import AdminDashboard from "./components/admin/AdminDashboard";
+import DiseaseIdentification from './components/DiseaseIdentification';
 
 function App() {
-  const { user } = useContext(UserContext);
-
-  // State for cart items
+  const {user} = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([]);
+  console.log(user)
 
-  // Function to add items to the cart
-  const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      const updatedItems = [...prevItems, product];
-      console.log("Cart Items after adding:", updatedItems);
-      return updatedItems;
-    });
+  useEffect(() => {
+    if (user) {
+
+      const fetchCartItems = async () => {
+        try {
+          const response = await fetch(`http://localhost:5000/api/users/${user}/cart`);
+          if (response.ok) {
+            const data = await response.json();
+            setCartItems(data.cart);
+          } else {
+            console.error("Failed to fetch cart items");
+          }
+        } catch (error) {
+          console.error("Error fetching cart items:", error);
+        }
+      };
+
+      const fetchWishlistItems = async () => {
+        try {
+          const response = await fetch(`http://localhost:5000/api/users/${user}/wishlist`);
+          if (response.ok) {
+            const data = await response.json();
+            setWishlistItems(data.wishlist);
+          } else {
+            console.error("Failed to fetch wishlist items");
+          }
+        } catch (error) {
+          console.error("Error fetching wishlist items:", error);
+        }
+      };
+
+      fetchCartItems();
+      fetchWishlistItems();
+    }
+  }, [user]);
+
+  const addToCart = async (product) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${user}/cart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: product._id, quantity: 1 })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setCartItems(data.cart);
+      } else {
+        console.error("Failed to add to cart");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
-  // Function to remove items from the cart
-  const removeFromCart = (productId) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
+  const removeFromCart = async (productId) => {
+    try {
+      console.log(productId)
+      const response = await fetch(`http://localhost:5000/api/users/${user}/cart/${productId}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        setCartItems(data.cart);
+      } else {
+        console.error("Failed to remove from cart");
+      }
+    } catch (error) {
+      console.error("Error removing from cart:", error);
+    }
+  };
+
+  const addToWishlist = async (product) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${user}/wishlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: product._id })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setWishlistItems(data.wishlist);
+      } else {
+        console.error("Failed to add to wishlist");
+      }
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
+  };
+
+  const removeFromWishlist = async (productId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${user}/wishlist/${productId}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setWishlistItems(data.wishlist);
+      } else {
+        console.error("Failed to remove from wishlist");
+      }
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
   };
 
   return (
     <div className="App">
-      {/* Pass cartItems to Navbar */}
-      <Navbar cartItems={cartItems} />
+      <Navbar cartItems={cartItems} wishlistItems={wishlistItems} />
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-
-        {/* Product Routes */}
-        <Route path='/products' element={<ProductList addToCart={addToCart} />} />
-        <Route path='/product/:id' element={<ProductPage addToCart={addToCart} />} />
+        <Route path='/products' element={<ProductList addToCart={addToCart} addToWishlist={addToWishlist} />} />
+        <Route path='/product/:id' element={<ProductPage addToCart={addToCart} addToWishlist={addToWishlist} />} />
         <Route path='/cart' element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} />} />
-
-        {/* Protected routes */}
-        {user && (
+        <Route path='/admin' element={<AdminDashboard />} />
+        {user ? (
           <>
             <Route path='/fertilizer' element={<Fertilizer />} />
             <Route path='/crop' element={<Crop />} />
             <Route path='/WeatherAlerts' element={<Weather />} />
-            <Route path='/admin' element={<AdminDashboard />} />
+            <Route path='/DiseaseIdentification' element={<DiseaseIdentification />} />
           </>
-        )}
-
-        {/* Redirect to login if the user is not logged in */}
-        {!user && (
+        ) : (
           <>
             <Route path='/weatherAlerts' element={<Login />} />
             <Route path='/fertilizer' element={<Login />} />
             <Route path='/crop' element={<Login />} />
+            <Route path='/DiseaseIdentification' element={<Login />} />
           </>
         )}
       </Routes>

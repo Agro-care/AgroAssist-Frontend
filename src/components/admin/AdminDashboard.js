@@ -13,6 +13,7 @@ const AdminDashboard = () => {
       .then((response) => response.json())
       .then((data) => setProductsData(data));
   }, []);
+  console.log(productsData)
 
   return (
     <div className="dashboard-container">

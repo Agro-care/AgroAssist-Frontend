@@ -32,15 +32,13 @@ const Crop = () => {
         method: "post",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
-          "Access-Control-Allow-Origin": "*"
         },
         body: body
       })
         .then((response) => response.json())
         .then((data) => {
-          let main_data = data["data"];
-          setPrediction(main_data["prediction"]);
-          console.log("res", data);
+         
+          console.log("res", data.prediction);
         })
         .catch((error) => {
           console.log(error);

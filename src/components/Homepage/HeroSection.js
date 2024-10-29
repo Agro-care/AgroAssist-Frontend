@@ -36,7 +36,7 @@ const HeroSection = () => {
 
       <div className="hero-description">
         <p>
-          At AgriApp, we believe that technology can transform the way agriculture is done. 
+          At Agroassist, we believe that technology can transform the way agriculture is done. 
           Our platform provides farmers with cutting-edge solutions to make informed decisions, 
           improve crop yield, and reduce operational costs.
         </p>

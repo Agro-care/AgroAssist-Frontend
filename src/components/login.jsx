@@ -22,8 +22,7 @@ export const Login = () => {
         console.log(login)
         try {
             const data = await axios.post("http://localhost:5000/api/login", login).then(res => res.data).catch(err => console.log(err));
-            console.log(data)// Example user data
-            Login(data.name);
+            Login(data.id);
             navigate('/');
         } catch (err) {
             console.log(err)
