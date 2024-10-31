@@ -17,12 +17,12 @@ const Navbar = ({ cartItems }) => {
 
   return (
     <div className="">
-      <div className="flex content-center bg-customGreen pb-4">
+      <div className="flex content-center bg-customGreen pb-auto">
         <div className="flex items-center cursor-pointer ml-auto lg:ml-16">
           <h3 className="text-md text-white font-bold opacity-[.70]">Agro Assist</h3>
         </div>
         <div className="flex-2 w-12/12 mx-auto">
-          <ul className="flex mt-8 items-around">
+          <ul className="flex m-6 items-around items-center">
             <li
               onClick={() => navigate("/")}
               className="text-sm cursor-pointer font-semibold text-white hover:opacity-90 lg:ml-7 ml-6 mr-1.5"
@@ -58,6 +58,12 @@ const Navbar = ({ cartItems }) => {
               className="text-sm cursor-pointer font-semibold text-white hover:opacity-90 ml-6 mr-1.5"
             >
               Ecommerce Store
+            </li>
+            <li
+              onClick={() => navigate("/RentalPage")}
+              className="text-sm cursor-pointer font-semibold text-white hover:opacity-90 ml-6 mr-1.5"
+            >
+              Rent Here
             </li>
             <li
               onClick={() => navigate("/cart")}
