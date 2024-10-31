@@ -14,11 +14,13 @@ import ProductPage from './components/ProductPage';
 import Cart from './components/Cart';
 import AdminDashboard from "./components/admin/AdminDashboard";
 import DiseaseIdentification from './components/DiseaseIdentification';
+import RentalEquipment from './components/Equipment';
 
 function App() {
   const {user} = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
+  
   console.log(user)
 
   useEffect(() => {
@@ -85,6 +87,7 @@ function App() {
         const data = await response.json();
         console.log(data)
         setCartItems(data.cart);
+        window.location.reload()
       } else {
         console.error("Failed to remove from cart");
       }
@@ -138,6 +141,7 @@ function App() {
         <Route path='/product/:id' element={<ProductPage addToCart={addToCart} addToWishlist={addToWishlist} />} />
         <Route path='/cart' element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} />} />
         <Route path='/admin' element={<AdminDashboard />} />
+        <Route path='/equipment' element={<RentalEquipment />} />
         {user ? (
           <>
             <Route path='/fertilizer' element={<Fertilizer />} />

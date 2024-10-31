@@ -39,7 +39,7 @@ export const Signup = () => {
         const data = response.data;
         console.log(data);
         
-        Login(data.name);
+        Login(data.token);
         navigate('/');
       } catch (err) {
         console.log(err);

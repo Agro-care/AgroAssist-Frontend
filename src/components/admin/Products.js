@@ -83,6 +83,7 @@ const Products = () => {
         product._id === updatedProduct._id ? updatedProduct : product
       ));
       closeModifyModal();
+      window.location.reload();
     } catch (error) {
       console.error("Failed to update product:", error);
     }
@@ -126,8 +127,8 @@ const Products = () => {
 
   return (
     <div className="products-container">
-      <h2 className="section-title">Product List</h2>
-      <input type="file" onChange={handleCSVUpload} className="csv-upload" />
+      {/* <h2 className="section-title">Product List</h2> */}
+      {/* <input type="file" onChange={handleCSVUpload} className="csv-upload" /> */}
       
       <div className="search-form">
         <div className="search-tab">
