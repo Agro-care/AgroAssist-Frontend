@@ -1,5 +1,5 @@
 // src/components/Navbar.js
-import React, { useContext } from "react";
+import React, { useContext , useState , useEffect } from "react";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../userContext";
@@ -7,6 +7,30 @@ import { UserContext } from "../userContext";
 const Navbar = ({ cartItems }) => {
   const { user, Logout } = useContext(UserContext);
   const navigate = useNavigate();
+  const [userData , setUserData] = useState({})
+  console.log(user)
+  const getUserName = async() => {
+    try{
+      const response = await fetch('http://localhost:5000/api/getUser', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user })
+      });
+      console.log(response)
+      if(response.ok){
+        const data = await response.json()
+        setUserData(data.userData);
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+  useEffect(()=> {
+    
+    getUserName();
+  }, [user])
+  console.log(userData.name)
   
   const handleLogout = () => {
     Logout(); // Clear user data from context
@@ -83,7 +107,7 @@ const Navbar = ({ cartItems }) => {
             ) : (
               <>
                 <p className="text-sm cursor-pointer font-semibold text-white hover:opacity-90 ml-6 mr-1.5">
-                  Welcome, {user}!
+                  Welcome, {userData.name}!
                 </p>
                 <li
                     onClick={handleLogout}

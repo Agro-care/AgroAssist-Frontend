@@ -18,7 +18,7 @@ const Crop = () => {
     let url = "http://137.184.139.164/api/crop-recommendation/predict/";
     let body = JSON.stringify({
       Nitrogen: parseFloat(nitrogen),
-      Phosphorous: parseFloat(phosphorus), // Ensure the spelling here is consistent with backend
+      Phosphorous: parseFloat(phosphorus),
       Potassium: parseFloat(potassium),
       Temperature: parseFloat(temperature),
       Humidity: parseFloat(humidity),
@@ -26,29 +26,26 @@ const Crop = () => {
       Rainfall: parseFloat(rain),
       lang: lang
     });
-    console.log("body", body);
-    try {
-      fetch(url, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        body: body
+  
+    fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: body
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("res", data.prediction);
+        setPrediction(data.prediction); // Update the prediction state with the response
+        setLoad(false); // Set loading to false after response
       })
-        .then((response) => response.json())
-        .then((data) => {
-         
-          console.log("res", data.prediction);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-
-    setLoad(false);
+      .catch((error) => {
+        console.log(error);
+        setLoad(false); // Ensure loading is stopped even in case of an error
+      });
   }
+  
 
   return (
     <>
