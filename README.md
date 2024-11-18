@@ -32,7 +32,7 @@ This is a **React-based web application** that provides agricultural tools and e
 - **styling:** Tailwind.css , css.
  
 ---
-# Key Functionalities
+## Key Functionalities
 
 - **UserContext Integration**: Provides global state management for the authenticated user, ensuring dynamic UI updates based on user roles such as Admin, Farmer, or General User.
 
