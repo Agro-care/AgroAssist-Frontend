@@ -3,6 +3,7 @@ import React, { useContext , useState , useEffect } from "react";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../userContext";
+import logo from '../images/logor.png';
 import { baseURL } from "../lib";
 
 const Navbar = ({ cartItems }) => {
@@ -44,7 +45,10 @@ const Navbar = ({ cartItems }) => {
     <div className="">
       <div className="flex content-center bg-customGreen pb-auto">
         <div className="flex items-center cursor-pointer ml-auto lg:ml-16">
-          <h3 className="text-md text-white font-bold opacity-[.70]">Agro Assist</h3>
+          {/* <h3 className="text-md text-white font-bold opacity-[.70]">Agro Assist</h3> */}
+          <img className="h-16 w-auto object-contain" src={logo} alt="Logo" />
+
+
         </div>
         <div className="flex-2 w-12/12 mx-auto">
           <ul className="flex m-6 items-around items-center">
@@ -85,7 +89,7 @@ const Navbar = ({ cartItems }) => {
               Ecommerce Store
             </li>
             <li
-              onClick={() => navigate("/RentalPage")}
+              onClick={() => navigate("/equipment")}
               className="text-sm cursor-pointer font-semibold text-white hover:opacity-90 ml-6 mr-1.5"
             >
               Rent Here
