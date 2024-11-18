@@ -1,7 +1,7 @@
-# E-Commerce Product Page - Gaming verse
+# Agro Assist - Front End
 
 ## Overview
-This project is a fully functional e-commerce website where users can explore products, add items to their cart or wishlist, and manage their shopping experience seamlessly. Built with a React frontend and an Express.js backend, the application uses MongoDB Atlas to persistently store product, cart, and wishlist data. The interface is user-friendly, allowing easy navigation and interaction with various features.
+This project is a React-based web application designed to provide agricultural and e-commerce functionalities, including crop recommendations, fertilizer advice, disease identification, equipment rentals, and product management. The application integrates user authentication and role-specific features for Admin, Farmer, and User roles. It also includes cart and wishlist functionalities and dynamically fetches data from a backend API.
 
 ## Features
 - **Product Listing and Details**: Users can view all available products and get detailed information on each item.
