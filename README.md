@@ -52,6 +52,17 @@ This is a **React-based web application** that provides agricultural tools and e
 
 - **E-Commerce Store**: A complete e-commerce platform where users can browse products, manage their cart, wishlist, and make purchases efficiently.
 
+---
+
+## Contributors
+
+### Front-End Development Team:
+- **Ishan Pathak**
+- **Prem Sai Potukuchi**
+- **Hemanth Paila**
+- **Madhu**
+- **Akshay Nallamalla**
+
 
 
 
