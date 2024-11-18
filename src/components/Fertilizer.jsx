@@ -19,7 +19,7 @@ const Fertilizer = () => {
   const fetchData = async () => {
     setLoad(true); // Start loading
     try {
-      const result = await axios.post("http://137.184.139.164/api/FRS/predict/", {
+      const result = await axios.post("/api/FRS/predict/", {
         data: {
           temperature: parseFloat(temperature),
           humidity: parseFloat(humidity),

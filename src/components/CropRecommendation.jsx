@@ -15,7 +15,7 @@ const Crop = () => {
 
   function onSearchSubmit() {
     setLoad(true);
-    let url = "http://137.184.139.164/api/crop-recommendation/predict/";
+    let url = "/api/crop-recommendation/predict/";
     let body = JSON.stringify({
       Nitrogen: parseFloat(nitrogen),
       Phosphorous: parseFloat(phosphorus),
