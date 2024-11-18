@@ -33,6 +33,7 @@ const DiseaseIdentification = () => {
         setLoad(false);
       });
   }
+  console.log(lang)
 
   return (
     <>

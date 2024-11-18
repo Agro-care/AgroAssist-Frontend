@@ -10,27 +10,27 @@ const Navbar = ({ cartItems }) => {
   const navigate = useNavigate();
   const [userData , setUserData] = useState({})
   console.log(user)
-  const getUserName = async() => {
-    try{
-      const response = await fetch( `${baseURL}/api/getUser`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user })
-      });
-      console.log(response)
-      if(response.ok){
-        const data = await response.json()
-        setUserData(data.userData);
+  useEffect(() => {
+    const getUserName = async () => {
+      try {
+        const response = await fetch(`${baseURL}/api/getUser`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user }),
+        });
+        console.log(response);
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(data.userData);
+        }
+      } catch (err) {
+        console.log(err);
       }
-    }
-    catch(err){
-      console.log(err)
-    }
-  }
-  useEffect(()=> {
-    
+    };
+  
     getUserName();
-  }, [user])
+  }, [user]); // Empty dependency array is fine now
+  
   console.log(userData.name)
   
   const handleLogout = () => {

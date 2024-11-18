@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Papa from 'papaparse';
 import './styles.css';
 import AddProductModal from './AddProductModal';
 import ModifyProductModal from './ModifyProductModal';
@@ -101,20 +100,6 @@ const Products = () => {
     }
   };
 
-  const handleCSVUpload = (e) => {
-    const file = e.target.files[0];
-    Papa.parse(file, {
-      complete: (result) => {
-        const csvProducts = result.data.map((row) => ({
-          name: row[0] || '',
-          price: row[1] || '',
-          category: row[2] || '',
-          stock: row[3] || ''
-        }));
-        setProducts([...products, ...csvProducts]);
-      },
-    });
-  };
 
   const handleSearchChange = (e) => setSearch(e.target.value.toLowerCase());
 

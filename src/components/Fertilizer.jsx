@@ -54,7 +54,8 @@ const Fertilizer = () => {
     setLoad(false);
   }
   console.log(soilType);
-  
+  console.log(city)
+  console.log(lang)
 
   return (
     <>
