@@ -63,6 +63,19 @@ This is a **React-based web application** that provides agricultural tools and e
 - **Madhu**
 - **Akshay Nallamalla**
 
+---
+
+## Acknowledgement
+
+We would like to extend our heartfelt gratitude to everyone who supported the development of this project. Special thanks to:
+
+- Our **mentors and professors** for their invaluable guidance and constructive feedback throughout the project.
+- The **development community** for providing open-source tools and libraries that helped streamline our workflow.
+- Our **friends and colleagues** for their encouragement and suggestions during the development process.
+- All those who contributed directly or indirectly to making this project a success.
+
+Your support and collaboration made this project possible, and we are deeply thankful for it.
+
 
 
 
