@@ -7,7 +7,7 @@ const DiseaseIdentification = () => {
   const [prediction, setPrediction] = useState("");
   const [lang, setLang] = useState("en"); // Default language is English
 
-  const url = "http://137.184.139.164/api/DIS/predict/";
+  const url = "/api/DIS/predict/";
 
   const onClick = () => {
     if (!photo) {
