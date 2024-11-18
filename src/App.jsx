@@ -15,6 +15,7 @@ import Cart from './components/Cart';
 import AdminDashboard from "./components/admin/AdminDashboard";
 import DiseaseIdentification from './components/DiseaseIdentification';
 import RentalEquipment from './components/Equipment';
+import { baseURL } from './lib';
 
 function App() {
   const {user} = useContext(UserContext);
@@ -28,7 +29,7 @@ function App() {
 
       const fetchCartItems = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/api/users/${user}/cart`);
+          const response = await fetch(`${baseURL}/api/users/${user}/cart`);
           if (response.ok) {
             const data = await response.json();
             setCartItems(data.cart);
@@ -42,7 +43,7 @@ function App() {
 
       const fetchWishlistItems = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/api/users/${user}/wishlist`);
+          const response = await fetch(`${baseURL}/api/users/${user}/wishlist`);
           if (response.ok) {
             const data = await response.json();
             setWishlistItems(data.wishlist);
@@ -61,7 +62,7 @@ function App() {
 
   const addToCart = async (product) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user}/cart`, {
+      const response = await fetch(`${baseURL}/api/users/${user}/cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId: product._id, quantity: 1 })
@@ -80,7 +81,7 @@ function App() {
   const removeFromCart = async (productId) => {
     try {
       console.log(productId)
-      const response = await fetch(`http://localhost:5000/api/users/${user}/cart/${productId}`, {
+      const response = await fetch(`${baseURL}/api/users/${user}/cart/${productId}`, {
         method: 'DELETE'
       });
       if (response.ok) {
@@ -98,7 +99,7 @@ function App() {
 
   const addToWishlist = async (product) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user}/wishlist`, {
+      const response = await fetch(`${baseURL}/api/users/${user}/wishlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ product_id: product._id })
@@ -116,7 +117,7 @@ function App() {
 
   const removeFromWishlist = async (productId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${user}/wishlist/${productId}`, {
+      const response = await fetch(`${baseURL}/api/users/${user}/wishlist/${productId}`, {
         method: 'DELETE'
       });
       if (response.ok) {

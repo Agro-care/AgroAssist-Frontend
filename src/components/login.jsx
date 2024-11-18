@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./main.css";
 import { UserContext } from "../userContext";
 import axios from "axios"
+import { baseURL } from "../lib";
 
 export const Login = () => {
     const { Login } = useContext(UserContext);
@@ -21,7 +22,7 @@ export const Login = () => {
         e.preventDefault();
         console.log(login)
         try {
-            const data = await axios.post("http://localhost:5000/api/login", login).then(res => res.data).catch(err => console.log(err));
+            const data = await axios.post(`${baseURL}/api/login`, login).then(res => res.data).catch(err => console.log(err));
             console.log(data)
             Login(data.token);
             navigate('/');

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../userContext';
+import { baseURL } from '../lib';
 
 const Cart = ({ removeFromCart }) => {
     const { user } = useContext(UserContext);
@@ -11,7 +12,7 @@ const Cart = ({ removeFromCart }) => {
             if (!user) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/users/${user}/cart`);
+                const response = await fetch(`${baseURL}/api/users/${user}/cart`);
                 if (response.ok) {
                     const data = await response.json();
                     setDetailedCartItems(data.cart);

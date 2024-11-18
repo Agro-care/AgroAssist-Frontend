@@ -3,6 +3,7 @@ import React, { useContext , useState , useEffect } from "react";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../userContext";
+import { baseURL } from "../lib";
 
 const Navbar = ({ cartItems }) => {
   const { user, Logout } = useContext(UserContext);
@@ -11,7 +12,7 @@ const Navbar = ({ cartItems }) => {
   console.log(user)
   const getUserName = async() => {
     try{
-      const response = await fetch('http://localhost:5000/api/getUser', {
+      const response = await fetch( `${baseURL}/api/getUser`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user })

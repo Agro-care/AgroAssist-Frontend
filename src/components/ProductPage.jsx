@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { baseURL } from '../lib';
 
 const ProductPage = ({ addToCart }) => {
     const { id } = useParams();
@@ -10,7 +11,7 @@ const ProductPage = ({ addToCart }) => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/products/${id}`);
+                const response = await fetch(`${baseURL}/api/products/${id}`);
                 if (!response.ok) {
                     throw new Error("Product not found");
                 }

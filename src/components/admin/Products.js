@@ -3,6 +3,7 @@ import Papa from 'papaparse';
 import './styles.css';
 import AddProductModal from './AddProductModal';
 import ModifyProductModal from './ModifyProductModal';
+import { baseURL } from '../../lib';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -19,7 +20,7 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/products');
+      const response = await fetch(`${baseURL}/api/products`);
       const data = await response.json();
       setProducts(data);
     } catch (error) {
@@ -48,7 +49,7 @@ const Products = () => {
       return;
     }
     try {
-      const response = await fetch('http://localhost:5000/api/products', {
+      const response = await fetch(`${baseURL}/api/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ const Products = () => {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${selectedProduct._id}`, {
+      const response = await fetch(`${baseURL}/api/products/${selectedProduct._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ const Products = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      await fetch(`http://localhost:5000/api/products/${productId}`, {
+      await fetch(`${baseURL}/api/products/${productId}`, {
         method: 'DELETE',
       });
       setProducts(products.filter((product) => product._id !== productId));

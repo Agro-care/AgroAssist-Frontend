@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import { baseURL } from '../../lib';
 
 const AddProductModal = ({ isOpen, closeModal, newProduct, setNewProduct, fetchProducts }) => {
   const [error, setError] = useState('');
@@ -16,7 +17,7 @@ const AddProductModal = ({ isOpen, closeModal, newProduct, setNewProduct, fetchP
     setSuccess(''); // Clear previous success message
 
     try {
-      const response = await fetch('http://localhost:5000/api/products', {
+      const response = await fetch(`${baseURL}/api/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

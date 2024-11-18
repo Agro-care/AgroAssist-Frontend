@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
 import '../style.css';
+import { baseURL } from '../lib';
 
 const ProductList = ({ addToCart }) => {
     const [products, setProducts] = useState([]); // State for products data
@@ -9,7 +10,7 @@ const ProductList = ({ addToCart }) => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/products'); // Replace with your API URL
+                const response = await fetch(`${baseURL}/api/products`); // Replace with your API URL
                 const data = await response.json();
                 setProducts(data); // Set fetched products data
             } catch (error) {
