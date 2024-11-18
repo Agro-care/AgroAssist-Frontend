@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { baseURL } from '../lib';
+import { UserContext } from '../userContext';
 
 const ProductPage = ({ addToCart }) => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [reviews, setReviews] = useState([]);
+    const [reviewText, setReviewText] = useState('');
+    const [rating, setRating] = useState(5);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -17,6 +22,7 @@ const ProductPage = ({ addToCart }) => {
                 }
                 const data = await response.json();
                 setProduct(data);
+                setReviews(data.reviews || []);
                 setLoading(false);
             } catch (error) {
                 setError(error.message);
@@ -26,6 +32,43 @@ const ProductPage = ({ addToCart }) => {
 
         fetchProduct();
     }, [id]);
+
+    const handleAddReview = async () => {
+        if (!user) {
+            alert("You must be logged in to add a review.");
+            return;
+        }
+
+        if (!reviewText.trim()) {
+            alert("Please enter a review.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${baseURL}/api/products/${id}/reviews`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: user, // Assuming user context contains user ID
+                    text: reviewText,
+                    rating,
+                }),
+            });
+
+            if (response.ok) {
+                const newReview = await response.json();
+                setReviews((prevReviews) => [...prevReviews, newReview]); // Update reviews dynamically
+                setReviewText('');
+                setRating(5); // Reset rating
+            } else {
+                console.error("Failed to submit review");
+            }
+        } catch (error) {
+            console.error("Error submitting review:", error);
+        }
+    };
 
     if (loading) return <p className="text-center text-gray-500">Loading...</p>;
     if (error) return <p className="text-center text-red-500">{error}</p>;
@@ -70,6 +113,55 @@ const ProductPage = ({ addToCart }) => {
                         Add to Cart
                     </button>
                 </div>
+            </div>
+
+            {/* Reviews Section */}
+            <div className="mt-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Reviews</h2>
+                <ul className="space-y-4">
+                    {reviews.length > 0 ? (
+                        reviews.map((review, index) => (
+                            <li key={index} className="p-4 bg-gray-100 rounded-md shadow-md">
+                                <p className="text-sm text-gray-600">{review.text}</p>
+                                <p className="text-sm text-yellow-500">Rating: {review.rating} ★</p>
+                                <p className="text-sm text-gray-400">{new Date(review.createdAt).toLocaleDateString()}</p>
+                            </li>
+                        ))
+                    ) : (
+                        <p className="text-gray-600">No reviews yet. Be the first to write one!</p>
+                    )}
+                </ul>
+            </div>
+
+            {/* Add Review Section */}
+            <div className="mt-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Write a Review</h2>
+                <textarea
+                    className="w-full p-3 border rounded-md mb-4"
+                    placeholder="Write your review here..."
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                />
+                <div className="flex items-center space-x-4">
+                    <label className="text-sm font-medium">Rating:</label>
+                    <select
+                        value={rating}
+                        onChange={(e) => setRating(Number(e.target.value))}
+                        className="p-2 border rounded-md"
+                    >
+                        {[1, 2, 3, 4, 5].map((r) => (
+                            <option key={r} value={r}>
+                                {r} ★
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button
+                    className="mt-4 px-6 py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none transition-all duration-150 shadow-lg transform hover:-translate-y-1"
+                    onClick={handleAddReview}
+                >
+                    Submit Review
+                </button>
             </div>
         </div>
     );
