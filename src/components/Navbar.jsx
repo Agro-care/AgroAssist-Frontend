@@ -4,6 +4,7 @@ import "./Header.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../userContext";
 import logo from '../images/logor.png';
+import { baseURL } from "../lib";
 
 const Navbar = ({ cartItems }) => {
   const { user, Logout } = useContext(UserContext);
