@@ -55,6 +55,7 @@ const AddProductModal = ({ isOpen, closeModal, newProduct, setNewProduct, fetchP
 
     } catch (error) {
       console.error('Error adding product:', error);
+      setError(error);
       // setError(error.message || 'An error occurred while adding the product.');
     }
   };

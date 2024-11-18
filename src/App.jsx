@@ -115,21 +115,6 @@ function App() {
     }
   };
 
-  const removeFromWishlist = async (productId) => {
-    try {
-      const response = await fetch(`${baseURL}/api/users/${user}/wishlist/${productId}`, {
-        method: 'DELETE'
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setWishlistItems(data.wishlist);
-      } else {
-        console.error("Failed to remove from wishlist");
-      }
-    } catch (error) {
-      console.error("Error removing from wishlist:", error);
-    }
-  };
 
   return (
     <div className="App">

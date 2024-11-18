@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./main.css";
 import { UserContext } from "../userContext";
+import { baseURL } from "../lib";
 
 export const Signup = () => {
   const { Login } = useContext(UserContext);
@@ -35,7 +36,7 @@ export const Signup = () => {
     }
 
     try {
-        const response = await axios.post("http://localhost:5000/api/signup", signup);
+        const response = await axios.post(`${baseURL}/api/signup`, signup);
         const data = response.data;
         console.log(data);
         
@@ -46,6 +47,7 @@ export const Signup = () => {
       }
       
   };
+  console.log(error)
 
   return (
     <div className="MainFrame">
@@ -65,7 +67,7 @@ export const Signup = () => {
         <p className="mt-3 text-xl text-center text-gray-600">Create your account</p>
 
         <a
-            href="#"
+            href="/"
             className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50"
         >
             <div className="px-4 py-2">
@@ -98,7 +100,7 @@ export const Signup = () => {
             <span className="w-1/5 border-b lg:w-1/4"></span>
 
             <a
-                href="#"
+                href="/signup"
                 className="text-xs text-center text-gray-500 uppercase hover:underline"
             >
                 or sign up with email
