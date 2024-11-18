@@ -26,35 +26,11 @@ This is a **React-based web application** that provides agricultural tools and e
 
 ---
 
-## Prerequisites
+## Tech Stack
 
-- **Node.js** (v16 or above)
-- **npm** (v8 or above)
-- **React Router Dom** (v6 or above)
-- **Backend API** (Base URL to be set in `lib.js` as `baseURL`)
-- **CSS**: Custom styling (`style.css`)
+- **Front End:** Frame Work
+- **styling:** Tailwind.css , css.
+ 
 
 ---
-
-## File structor 
-src/
-├── components/
-│   ├── HomePage.js
-│   ├── Navbar.js
-│   ├── login.js
-│   ├── signup.js
-│   ├── Fertilizer.js
-│   ├── CropRecommendation.js
-│   ├── Equipment.js
-│   ├── DiseaseIdentification.js
-│   ├── admin/
-│   │   └── AdminDashboard.js
-│   ├── ProductList.js
-│   └── ProductPage.js
-├── Weather.js
-├── userContext.js
-├── lib.js
-├── App.js
-├── style.css
-└── index.js
 
