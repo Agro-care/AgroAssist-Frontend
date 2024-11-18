@@ -36,3 +36,25 @@ This is a **React-based web application** that provides agricultural tools and e
 
 ---
 
+## File structor 
+src/
+├── components/
+│   ├── HomePage.js
+│   ├── Navbar.js
+│   ├── login.js
+│   ├── signup.js
+│   ├── Fertilizer.js
+│   ├── CropRecommendation.js
+│   ├── Equipment.js
+│   ├── DiseaseIdentification.js
+│   ├── admin/
+│   │   └── AdminDashboard.js
+│   ├── ProductList.js
+│   └── ProductPage.js
+├── Weather.js
+├── userContext.js
+├── lib.js
+├── App.js
+├── style.css
+└── index.js
+
