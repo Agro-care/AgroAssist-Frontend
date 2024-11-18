@@ -1,4 +1,4 @@
-# React Agricultural and E-commerce Web Application
+# Agro Assist Front - End
 
 This is a **React-based web application** that provides agricultural tools and e-commerce functionalities, including crop recommendations, fertilizer advice, disease identification, equipment rentals, and product management. The app supports **role-based access** for Admin, Farmer, and User roles.
 
