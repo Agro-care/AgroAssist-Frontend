@@ -3,16 +3,18 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./main.css";
 import { UserContext } from "../userContext";
+import { baseURL } from "../lib";
 
 export const Signup = () => {
   const { Login } = useContext(UserContext);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   
   const initialValues = {
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    role: "user"
   };
   
   const [signup, setSignup] = useState(initialValues);
@@ -22,7 +24,6 @@ export const Signup = () => {
     const { name, value } = e.target;
     setSignup({ ...signup, [name]: value });
     setError(""); // Clear error message on input change
-    console.log(signup);
   };
 
   const handleSubmit = async (e) => {
@@ -35,15 +36,18 @@ export const Signup = () => {
     }
 
     try {
-      const data = await axios.post("http://localhost:5000/api/signup", signup).then(res => res.data).catch(err => console.log(err));
-          console.log(data)// Example user data
-          Login(data.name);
-          navigate('/');
+        const response = await axios.post(`${baseURL}/api/signup`, signup);
+        const data = response.data;
+        console.log(data);
+        
+        Login(data.token);
+        navigate('/');
+      } catch (err) {
+        console.log(err);
+      }
       
-    } catch (err) {
-      console.log(err);
-    }
   };
+  console.log(error)
 
   return (
     <div className="MainFrame">
@@ -63,7 +67,7 @@ export const Signup = () => {
         <p className="mt-3 text-xl text-center text-gray-600">Create your account</p>
 
         <a
-            href="#"
+            href="/"
             className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50"
         >
             <div className="px-4 py-2">
@@ -96,7 +100,7 @@ export const Signup = () => {
             <span className="w-1/5 border-b lg:w-1/4"></span>
 
             <a
-                href="#"
+                href="/signup"
                 className="text-xs text-center text-gray-500 uppercase hover:underline"
             >
                 or sign up with email
@@ -172,6 +176,25 @@ export const Signup = () => {
                 placeholder="Confirm Password"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
             />
+        </div>
+
+        {/* Role selection dropdown */}
+        <div className="mt-4">
+            <label
+                className="block mb-2 text-sm font-medium text-gray-600"
+                htmlFor="role"
+            >
+                Select Role
+            </label>
+            <select
+              name="role"
+              onChange={handleChange}
+              value={signup.role}
+              className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
+            >
+              <option value="user">User</option>
+              <option value="farmer">Farmer</option>
+            </select>
         </div>
 
         <div className="mt-6">

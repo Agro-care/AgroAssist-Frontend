@@ -53,6 +53,9 @@ const Fertilizer = () => {
 
     setLoad(false);
   }
+  console.log(soilType);
+  console.log(city)
+  console.log(lang)
 
   return (
     <>
@@ -107,7 +110,7 @@ const Fertilizer = () => {
                   onChange={(e) => setSoilType(e.target.value)}
                   className="border-2 border-green-600 p-2 rounded-sm w-64"
                 >
-                  <option value="Clay">Clayey</option>
+                  <option value="Clayey">Clayey</option>
                   <option value="Sandy">Sandy</option>
                   <option value="Loamy">Loamy</option>
                   <option value="Black">Black</option>

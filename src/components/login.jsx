@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./main.css";
 import { UserContext } from "../userContext";
 import axios from "axios"
+import { baseURL } from "../lib";
 
 export const Login = () => {
     const { Login } = useContext(UserContext);
@@ -21,9 +22,9 @@ export const Login = () => {
         e.preventDefault();
         console.log(login)
         try {
-            const data = await axios.post("http://localhost:5000/api/login", login).then(res => res.data).catch(err => console.log(err));
-            console.log(data)// Example user data
-            Login(data.name);
+            const data = await axios.post(`${baseURL}/api/login`, login).then(res => res.data).catch(err => console.log(err));
+            console.log(data)
+            Login(data.token);
             navigate('/');
         } catch (err) {
             console.log(err)
@@ -49,7 +50,7 @@ export const Login = () => {
                     <p className="mt-3 text-xl text-center text-gray-600">Welcome back!</p>
 
                     <a
-                        href="#"
+                        href="/"
                         className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50"
                     >
                         <div className="px-4 py-2">
@@ -82,7 +83,7 @@ export const Login = () => {
                         <span className="w-1/5 border-b lg:w-1/4"></span>
 
                         <a
-                            href="#"
+                            href="/"
                             className="text-xs text-center text-gray-500 uppercase hover:underline"
                         >
                             or login with email
@@ -116,9 +117,6 @@ export const Login = () => {
                             >
                                 Password
                             </label>
-                            <a href="#" className="text-xs text-gray-500 hover:underline">
-                                Forget Password?
-                            </a>
                         </div>
 
                         <input

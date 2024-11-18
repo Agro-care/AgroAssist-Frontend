@@ -1,87 +1,120 @@
-import React, { useState } from 'react';
-import Papa from 'papaparse';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
 import AddProductModal from './AddProductModal';
 import ModifyProductModal from './ModifyProductModal';
+import { baseURL } from '../../lib';
 
-const Products = ({ productsData }) => {
-  const [products, setProducts] = useState(productsData);
-  const [newProduct, setNewProduct] = useState({ name: '', country: '', type: '', price: '' });
+const Products = () => {
+  const [products, setProducts] = useState([]);
+  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '', stock: '' });
   const [search, setSearch] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modifyModalIsOpen, setModifyModalIsOpen] = useState(false);
-  const [selectedProductIndex, setSelectedProductIndex] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`${baseURL}/api/products`);
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  };
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
-  const openModifyModal = (index) => {
-    setSelectedProductIndex(index);
-    setNewProduct(products[index]); // Pre-fill the form with the selected product's data
+  const openModifyModal = (product) => {
+    setSelectedProduct(product);
+    setNewProduct(product); // Pre-fill the form with the selected product's data
     setModifyModalIsOpen(true);
   };
 
   const closeModifyModal = () => {
     setModifyModalIsOpen(false);
-    setNewProduct({ name: '', country: '', type: '', price: '' });
-    setSelectedProductIndex(null);
+    setNewProduct({ name: '', price: '', category: '', stock: '' });
+    setSelectedProduct(null);
   };
 
-  const handleAddProduct = () => {
-    if (!newProduct.name || !newProduct.country || !newProduct.type || !newProduct.price) {
+  const handleAddProduct = async () => {
+    if (!newProduct.name || !newProduct.price || !newProduct.category || !newProduct.stock) {
       setError('All fields are required.');
       return;
     }
-    setProducts([...products, newProduct]);
-    setNewProduct({ name: '', country: '', type: '', price: '' });
-    setError('');
-    setModalIsOpen(false);
+    try {
+      const response = await fetch(`${baseURL}/api/products`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct),
+      });
+      const addedProduct = await response.json();
+      setProducts([...products, addedProduct]);
+      setNewProduct({ name: '', price: '', category: '', stock: '' });
+      setError('');
+      setModalIsOpen(false);
+    } catch (error) {
+      console.error("Failed to add product:", error);
+    }
   };
 
-  const handleSaveChanges = () => {
-    if (!newProduct.name || !newProduct.country || !newProduct.type || !newProduct.price) {
+  const handleSaveChanges = async () => {
+    if (!newProduct.name || !newProduct.price || !newProduct.category || !newProduct.stock) {
       setError('All fields are required.');
       return;
     }
-    const updatedProducts = [...products];
-    updatedProducts[selectedProductIndex] = newProduct;
-    setProducts(updatedProducts);
-    closeModifyModal();
+    try {
+      const response = await fetch(`${baseURL}/api/products/${selectedProduct._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct),
+      });
+      const updatedProduct = await response.json();
+      setProducts(products.map((product) =>
+        product._id === updatedProduct._id ? updatedProduct : product
+      ));
+      closeModifyModal();
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to update product:", error);
+    }
   };
 
-  const handleDeleteProduct = (index) => {
-    setProducts(products.filter((_, i) => i !== index));
+  const handleDeleteProduct = async (productId) => {
+    try {
+      await fetch(`${baseURL}/api/products/${productId}`, {
+        method: 'DELETE',
+      });
+      setProducts(products.filter((product) => product._id !== productId));
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
   };
 
-  const handleCSVUpload = (e) => {
-    const file = e.target.files[0];
-    Papa.parse(file, {
-      complete: (result) => {
-        setProducts(result.data.map((row) => ({
-          name: row[0] || '',
-          country: row[1] || '',
-          type: row[2] || '',
-          price: row[3] || ''
-        })));
-      },
-    });
-  };
 
   const handleSearchChange = (e) => setSearch(e.target.value.toLowerCase());
 
   const filteredProducts = products.filter(
     (product) =>
       product.name.toLowerCase().includes(search) ||
-      product.country.toLowerCase().includes(search) ||
-      product.type.toLowerCase().includes(search) ||
-      product.price.toString().includes(search)
+      product.category.toLowerCase().includes(search) ||
+      product.price.toString().includes(search) ||
+      product.stock.toString().includes(search)
   );
 
   return (
     <div className="products-container">
-      <h2 className="section-title">Product List</h2>
-      <input type="file" onChange={handleCSVUpload} className="csv-upload" />
+      {/* <h2 className="section-title">Product List</h2> */}
+      {/* <input type="file" onChange={handleCSVUpload} className="csv-upload" /> */}
       
       <div className="search-form">
         <div className="search-tab">
@@ -122,22 +155,22 @@ const Products = ({ productsData }) => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Country</th>
-            <th>Type</th>
             <th>Price</th>
+            <th>Category</th>
+            <th>Stock</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {filteredProducts.map((product, index) => (
-            <tr key={index}>
+            <tr key={product._id || index}>
               <td>{product.name}</td>
-              <td>{product.country}</td>
-              <td>{product.type}</td>
               <td>{product.price}</td>
+              <td>{product.category}</td>
+              <td>{product.stock}</td>
               <td>
-                <button onClick={() => handleDeleteProduct(index)} className="btn delete-btn">Delete</button>
-                <button onClick={() => openModifyModal(index)} className="btn modify-btn">Modify</button>
+                <button onClick={() => handleDeleteProduct(product._id)} className="btn delete-btn">Delete</button>
+                <button onClick={() => openModifyModal(product)} className="btn modify-btn">Modify</button>
               </td>
             </tr>
           ))}
