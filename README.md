@@ -4,10 +4,24 @@
 This project is a React-based web application designed to provide agricultural and e-commerce functionalities, including crop recommendations, fertilizer advice, disease identification, equipment rentals, and product management. The application integrates user authentication and role-specific features for Admin, Farmer, and User roles. It also includes cart and wishlist functionalities and dynamically fetches data from a backend API.
 
 ## Features
-- **Product Listing and Details**: Users can view all available products and get detailed information on each item.
-- **Cart Functionality**: Users can add items to the cart, adjust quantities, and remove items as needed.
-- **Wishlist Functionality**: Users can add items to their wishlist and easily move items between the wishlist and cart.
-- **Data Persistence**: All cart and wishlist items are saved in MongoDB Atlas, ensuring data is available across sessions.
+User Authentication: Supports login and signup.
+E-commerce Functionality:
+Add products to cart and wishlist.
+Remove items from the cart.
+View product details.
+Farmer Tools:
+Crop recommendations.
+Fertilizer advice.
+Disease identification.
+Rental equipment listing.
+Weather Alerts: Displays weather-related notifications.
+Admin Dashboard:
+Manage products.
+Review user activities.
+Update product prices and inventory.
+Role-Based Access Control:
+Certain pages require authentication.
+Unauthorized users are redirected to the login page.
 
 ## Tech Stack
 - **Frontend**: React.js
