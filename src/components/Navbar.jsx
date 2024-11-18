@@ -89,7 +89,7 @@ const Navbar = ({ cartItems }) => {
               Ecommerce Store
             </li>
             <li
-              onClick={() => navigate("/RentalPage")}
+              onClick={() => navigate("/equipment")}
               className="text-sm cursor-pointer font-semibold text-white hover:opacity-90 ml-6 mr-1.5"
             >
               Rent Here
