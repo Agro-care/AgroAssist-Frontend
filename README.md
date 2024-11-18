@@ -57,8 +57,8 @@ This is a **React-based web application** that provides agricultural tools and e
 ## Contributors
 
 ### Front-End Development Team:
-- **Ishan Pathak**
 - **Prem Sai Potukuchi**
+- **Ishan Pathak**
 - **Hemanth Paila**
 - **Madhu**
 - **Akshay Nallamalla**
