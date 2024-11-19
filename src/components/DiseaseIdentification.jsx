@@ -7,7 +7,7 @@ const DiseaseIdentification = () => {
   const [prediction, setPrediction] = useState("");
   const [lang, setLang] = useState("en"); // Default language is English
 
-  const url = "/api/DIS/predict/";
+  const url = "https://icsi518ml.com/api/DIS/predict/";
 
   const onClick = () => {
     if (!photo) {

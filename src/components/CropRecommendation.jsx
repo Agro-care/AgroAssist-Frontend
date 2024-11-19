@@ -15,7 +15,7 @@ const Crop = () => {
 
   function onSearchSubmit() {
     setLoad(true);
-    let url = "/api/crop-recommendation/predict/";
+    let url = "https://icsi518ml.com/api/crop-recommendation/predict/";
     let body = JSON.stringify({
       Nitrogen: parseFloat(nitrogen),
       Phosphorous: parseFloat(phosphorus),
