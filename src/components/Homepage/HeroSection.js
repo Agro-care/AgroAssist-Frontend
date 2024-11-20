@@ -9,7 +9,7 @@ const HeroSection = () => {
         <h1>Empowering Farmers with Technology</h1>
         <p>AgriApp provides the tools, resources, and knowledge farmers need to succeed in modern agriculture.</p>
         <div className="cta-buttons">
-          <a href="/crops" className="cta-button">Explore Crops</a>
+          <a href="/products" className="cta-button">Explore Crops</a>
           <a href="/equipment" className="cta-button cta-secondary">Find Equipment</a>
         </div>
       </div>
