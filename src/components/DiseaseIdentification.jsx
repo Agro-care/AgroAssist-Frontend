@@ -36,13 +36,69 @@ const DiseaseIdentification = () => {
       });
   };
 
+  const handleTakePhoto = async () => {
+    try {
+      const videoStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
+
+      const videoElement = document.createElement("video");
+      videoElement.srcObject = videoStream;
+      videoElement.play();
+
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+
+      const capturePhoto = () => {
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        const photoBlob = canvas.toBlob((blob) => {
+          setPhoto(new File([blob], "photo.jpg", { type: "image/jpeg" }));
+          videoStream.getTracks().forEach((track) => track.stop()); // Stop the video stream
+        }, "image/jpeg");
+      };
+
+      const modal = document.createElement("div");
+      modal.classList.add(
+        "fixed",
+        "inset-0",
+        "bg-black",
+        "bg-opacity-50",
+        "flex",
+        "justify-center",
+        "items-center"
+      );
+      modal.innerHTML = `
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <video class="w-full rounded mb-4"></video>
+          <button id="capture-btn" class="px-4 py-2 bg-green-500 text-white rounded">Capture</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      const videoContainer = modal.querySelector("video");
+      videoContainer.srcObject = videoStream;
+      videoContainer.play();
+
+      const captureBtn = modal.querySelector("#capture-btn");
+      captureBtn.addEventListener("click", () => {
+        capturePhoto();
+        document.body.removeChild(modal);
+      });
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+    }
+  };
+
   return (
     <>
       <section className="disease-identification">
         <div className="grid place-items-center">
           <div className="container bg-gray-100 p-10 grid place-items-center mt-14">
             <p className="text-2xl font-medium text-green-600 my-12">
-              Upload your image to get the disease prediction
+              Upload or Take a Photo to Get Disease Prediction
             </p>
 
             {/* Language Selector */}
@@ -51,8 +107,14 @@ const DiseaseIdentification = () => {
             </div>
 
             {/* File Input */}
-            <p className="font-medium text-lg">Select Image:</p>
-            <div className="m-6">
+            <p className="font-medium text-lg">Choose Image:</p>
+            <div className="m-6 flex space-x-4">
+              <button
+                onClick={handleTakePhoto}
+                className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
+              >
+                Take Photo
+              </button>
               <input
                 type="file"
                 accept="image/*"
@@ -60,6 +122,7 @@ const DiseaseIdentification = () => {
                   const file = e.target.files[0];
                   setPhoto(file);
                 }}
+                className="px-4 py-2 bg-gray-200 rounded shadow hover:bg-gray-300"
               />
             </div>
 
@@ -75,7 +138,7 @@ const DiseaseIdentification = () => {
             {/* Uploaded Image Preview */}
             {photo && (
               <>
-                <p className="font-medium mt-6">Uploaded Image:</p>
+                <p className="font-medium mt-6">Selected Image:</p>
                 <img
                   src={URL.createObjectURL(photo)}
                   alt="Uploaded preview"

@@ -6,7 +6,7 @@ export const UserContext = createContext(null);
 
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState([]); // null means no user is logged in initially
+  const [user, setUser] = useState(null); // null means no user is logged in initially
 
   const Login = (token) => {
     localStorage.setItem('token', token);
