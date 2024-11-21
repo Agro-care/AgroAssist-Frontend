@@ -16,56 +16,50 @@ import AdminDashboard from "./components/admin/AdminDashboard";
 import DiseaseIdentification from './components/DiseaseIdentification';
 import RentalEquipment from './components/Equipment';
 import { baseURL } from './lib';
+import axios from 'axios';
 
 function App() {
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
-  const [wishlistItems, setWishlistItems] = useState([]);
-  
-  console.log(user)
+  const [userDetails, setUserDetails] = useState({});
+  const [role, setRole] = useState('');
 
+  // Fetch user details
   useEffect(() => {
     if (user) {
-
-      const fetchCartItems = async () => {
+      const getUserDetails = async () => {
         try {
-          const response = await fetch(`${baseURL}/api/users/${user}/cart`);
-          if (response.ok) {
-            const data = await response.json();
-            setCartItems(data.cart);
-          } else {
-            console.error("Failed to fetch cart items");
-          }
+          const response = await axios.post(`${baseURL}/api/getUser`, { userId: user });
+          const data = response.data;
+          setUserDetails(data);
+          console.log("User details fetched:", data);
         } catch (error) {
-          console.error("Error fetching cart items:", error);
+          console.error("Error fetching user details:", error);
         }
       };
-
-      const fetchWishlistItems = async () => {
-        try {
-          const response = await fetch(`${baseURL}/api/users/${user}/wishlist`);
-          if (response.ok) {
-            const data = await response.json();
-            setWishlistItems(data.wishlist);
-          } else {
-            console.error("Failed to fetch wishlist items");
-          }
-        } catch (error) {
-          console.error("Error fetching wishlist items:", error);
-        }
-      };
-
-      fetchCartItems();
-      fetchWishlistItems();
+      getUserDetails();
     }
   }, [user]);
 
+  // Update role when userDetails changes
+  useEffect(() => {
+    if (userDetails.userData) {
+      setRole(userDetails.userData.role);
+      console.log("Role updated:", userDetails.userData.role);
+    }
+  }, [userDetails]);
+
   const addToCart = async (product) => {
+    if (!user) {
+      console.error("User not logged in");
+      return;
+    }
+
     try {
       const response = await fetch(`${baseURL}/api/users/${user}/cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: product._id, quantity: 1 })
+        body: JSON.stringify({ productId: product._id, quantity: 1 }),
       });
       if (response.ok) {
         const data = await response.json();
@@ -79,16 +73,18 @@ function App() {
   };
 
   const removeFromCart = async (productId) => {
+    if (!user) {
+      console.error("User not logged in");
+      return;
+    }
+
     try {
-      console.log(productId)
       const response = await fetch(`${baseURL}/api/users/${user}/cart/${productId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
-        setCartItems(data.cart);
-        window.location.reload()
+        setCartItems(data.cart); // Update cart dynamically
       } else {
         console.error("Failed to remove from cart");
       }
@@ -97,43 +93,31 @@ function App() {
     }
   };
 
-  const addToWishlist = async (product) => {
-    try {
-      const response = await fetch(`${baseURL}/api/users/${user}/wishlist`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: product._id })
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setWishlistItems(data.wishlist);
-      } else {
-        console.error("Failed to add to wishlist");
-      }
-    } catch (error) {
-      console.error("Error adding to wishlist:", error);
-    }
-  };
-
-
   return (
     <div className="App">
-      <Navbar cartItems={cartItems} wishlistItems={wishlistItems} />
+      <Navbar cartItems={cartItems} userDetails={userDetails} role={role} />
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        <Route path='/products' element={<ProductList addToCart={addToCart} addToWishlist={addToWishlist} />} />
-        <Route path='/product/:id' element={<ProductPage addToCart={addToCart} addToWishlist={addToWishlist} />} />
-        <Route path='/cart' element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} />} />
         <Route path='/admin' element={<AdminDashboard />} />
-        <Route path='/equipment' element={<RentalEquipment />} />
-        {user ? (
+        {user && role === "user" ? (
+          <>
+            <Route path='/products' element={<ProductList addToCart={addToCart} />} />
+            <Route path='/product/:id' element={<ProductPage addToCart={addToCart} />} />
+            <Route path='/cart' element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} />} />
+          </>
+        ) : null}
+        {user && role === "farmer" ? (
           <>
             <Route path='/fertilizer' element={<Fertilizer />} />
+            <Route path='/products' element={<ProductList addToCart={addToCart} />} />
+            <Route path='/product/:id' element={<ProductPage addToCart={addToCart} />} />
+            <Route path='/cart' element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} />} />
             <Route path='/crop' element={<Crop />} />
             <Route path='/WeatherAlerts' element={<Weather />} />
             <Route path='/DiseaseIdentification' element={<DiseaseIdentification />} />
+            <Route path='/equipment' element={<RentalEquipment />} />
           </>
         ) : (
           <>
@@ -141,6 +125,7 @@ function App() {
             <Route path='/fertilizer' element={<Login />} />
             <Route path='/crop' element={<Login />} />
             <Route path='/DiseaseIdentification' element={<Login />} />
+            <Route path='/equipment' element={<Login />} />
           </>
         )}
       </Routes>

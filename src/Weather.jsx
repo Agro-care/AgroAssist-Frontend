@@ -21,7 +21,7 @@ function Weather() {
       const forecastFetch = fetch(
         `${WEATHER_API_URL}/forecast?lat=${location.lat}&lon=${location.lon}&appid=${WEATHER_API_KEY}&units=metric`
       );
-      const weatherAlerts = fetch(`https://api.weatherbit.io/v2.0/alerts?lat=${location.lat}&lon=${location.lon}&key=17184c7e27a841b5bc0e71f7cd55bc52`)
+      const weatherAlerts = fetch(`https://api.weatherbit.io/v2.0/alerts?lat=${location.lat}&lon=${location.lon}&key=f535c04226c948d0a30ac9ef61cbf3fa`)
       Promise.all([currentWeatherFetch, forecastFetch, weatherAlerts])
         .then(async (response) => {
           const weatherResponse = await response[0].json();
