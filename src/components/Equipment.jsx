@@ -186,100 +186,101 @@ const RentalEquipment = () => {
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 z-0">
       {otherEquipments.map((item) => (
         <div
-          key={item._id}
-          className="bg-white rounded-lg shadow-lg transform transition hover:scale-105 hover:shadow-xl relative"
-        >
-          <img
-            src={item.image || 'https://via.placeholder.com/300'}
-            alt={item.name}
-            className="w-full h-48 object-cover rounded-t-lg"
-          />
-          <div className="p-4">
-            <h3 className="text-lg font-bold text-gray-800 mb-2">{item.name}</h3>
-            <p className="text-sm text-gray-600 mb-2">{item.description}</p>
-            <p className="text-green-500 font-semibold text-lg mb-2">
-              ${item.rental_price} / day
-            </p>
-            <div className="flex items-center text-sm text-gray-600 mb-2">
-              <span className="font-semibold mr-1">Status:</span>
-              <span
-                className={`px-2 py-1 rounded-full text-xs ${
-                  item.availability_status === 'available'
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-red-100 text-red-800'
-                }`}
-              >
-                {item.availability_status}
-              </span>
-            </div>
-            <p className="text-sm text-gray-600 mb-2">
-              <span className="font-semibold">Location:</span> {item.location}
-            </p>
-            <p className="text-sm text-gray-600 mb-2">
-              <span className="font-semibold">Uploaded by:</span> {item.farmer}
-            </p>
-            <p className="text-sm text-gray-600 mb-2">
-              <span className="font-semibold">Uploaded on:</span>{' '}
-              {new Date(item.created_at).toLocaleDateString()}
-            </p>
-
-            <div className="relative mt-4">
-              <button
-                onClick={() => toggleContactDropdown(item._id)}
-                className="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
-              >
-                Contact Now
-              </button>
-              {contactDropdown === item._id && (
-                <div className="absolute top-full mt-2 left-0 w-full bg-white shadow-lg border rounded z-10 p-4">
-                  <p className="text-lg font-bold text-gray-800 mb-4">Contact Options</p>
-                  <div className="flex flex-col space-y-2">
-                    <a
-                      href={`mailto:${item.contact_email}`}
-                      className="flex items-center px-4 py-2 bg-blue-100 text-blue-800 font-semibold rounded hover:bg-blue-200"
+        key={item._id}
+        className="bg-white rounded-lg shadow-lg transform transition hover:scale-105 hover:shadow-xl relative"
+      >
+        <img
+          src={item.image || 'https://via.placeholder.com/300'}
+          alt={item.name}
+          className="w-full h-48 object-cover rounded-t-lg"
+        />
+        <div className="p-4 relative">
+          <h3 className="text-lg font-bold text-gray-800 mb-2">{item.name}</h3>
+          <p className="text-sm text-gray-600 mb-2">{item.description}</p>
+          <p className="text-green-500 font-semibold text-lg mb-2">
+            ${item.rental_price} / day
+          </p>
+          <div className="flex items-center text-sm text-gray-600 mb-2">
+            <span className="font-semibold mr-1">Status:</span>
+            <span
+              className={`px-2 py-1 rounded-full text-xs ${
+                item.availability_status === 'available'
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-red-100 text-red-800'
+              }`}
+            >
+              {item.availability_status}
+            </span>
+          </div>
+          <p className="text-sm text-gray-600 mb-2">
+            <span className="font-semibold">Location:</span> {item.location}
+          </p>
+          <p className="text-sm text-gray-600 mb-2">
+            <span className="font-semibold">Uploaded by:</span> {item.farmer}
+          </p>
+          <p className="text-sm text-gray-600 mb-2">
+            <span className="font-semibold">Uploaded on:</span>{' '}
+            {new Date(item.created_at).toLocaleDateString()}
+          </p>
+      
+          <div className="relative mt-4">
+            <button
+              onClick={() => toggleContactDropdown(item._id)}
+              className="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
+            >
+              Contact Now
+            </button>
+            {contactDropdown === item._id && (
+              <div className="absolute top-full left-0 mt-2 w-full bg-white shadow-lg border rounded z-50 p-4">
+                <p className="text-lg font-bold text-gray-800 mb-4">Contact Options</p>
+                <div className="flex flex-col space-y-2">
+                  <a
+                    href={`mailto:${item.contact_email}`}
+                    className="flex items-center px-4 py-2 bg-blue-100 text-blue-800 font-semibold rounded hover:bg-blue-200"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M16 12l-4 4m0 0l-4-4m4 4V8"
-                        />
-                      </svg>
-                      Email: {item.contact_email}
-                    </a>
-                    <a
-                      href={`tel:${item.contact_number}`}
-                      className="flex items-center px-4 py-2 bg-green-100 text-green-800 font-semibold rounded hover:bg-green-200"
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 12l-4 4m0 0l-4-4m4 4V8"
+                      />
+                    </svg>
+                    Email: {item.contact_email}
+                  </a>
+                  <a
+                    href={`tel:${item.contact_number}`}
+                    className="flex items-center px-4 py-2 bg-green-100 text-green-800 font-semibold rounded hover:bg-green-200"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 10l7-7m0 0l7 7M10 3v11"
-                        />
-                      </svg>
-                      Phone: {item.contact_number}
-                    </a>
-                  </div>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 10l7-7m0 0l7 7M10 3v11"
+                      />
+                    </svg>
+                    Phone: {item.contact_number}
+                  </a>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
+      </div>
+      
       ))}
     </div>
 
