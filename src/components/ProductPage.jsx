@@ -62,6 +62,7 @@ const ProductPage = ({ addToCart }) => {
                 setReviews((prevReviews) => [...prevReviews, newReview]); // Update reviews dynamically
                 setReviewText('');
                 setRating(5); // Reset rating
+                window.location.reload();
             } else {
                 console.error("Failed to submit review");
             }

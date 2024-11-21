@@ -183,7 +183,7 @@ const RentalEquipment = () => {
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Other Available Equipment</h2>
 
         {/* Other Farmers' Equipment */}
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 z-0">
       {otherEquipments.map((item) => (
         <div
           key={item._id}
