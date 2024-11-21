@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import "./main.css";
 import { baseURL } from "../lib";
+import { Navigate, useNavigate } from "react-router-dom";
+import { UserContext } from "../userContext";
 
 export const Signup = () => {
     const initialValues = {
@@ -9,11 +11,14 @@ export const Signup = () => {
         name: "",
         password: "",
         confirmPassword: "",
+        role: "user", // Default role
     };
+    const { Login } = useContext(UserContext);
     const [signup, setSignup] = useState(initialValues);
     const [errors, setErrors] = useState({}); // To store field-specific errors
     const [successMessage, setSuccessMessage] = useState(""); // For displaying success messages
     const [errorMessage, setErrorMessage] = useState(""); // For displaying server-side errors
+    const Navigate = useNavigate();
 
     // Handle input changes
     const handleChange = (e) => {
@@ -22,6 +27,7 @@ export const Signup = () => {
         setErrors({ ...errors, [name]: "" }); // Clear field-specific errors on change
         setSuccessMessage(""); // Clear success message on input change
         setErrorMessage(""); // Clear server-side errors on input change
+        console.log(e.target)
     };
 
     // Validate form fields
@@ -73,9 +79,12 @@ export const Signup = () => {
         }
 
         try {
+            console.log(signup)
             const response = await axios.post(`${baseURL}/api/signup`, signup);
             setSuccessMessage(response.data.message || "Signup successful!");
             setSignup(initialValues); // Reset the form after successful signup
+            Login(response.data.token);
+            Navigate("/");
         } catch (err) {
             setErrorMessage(
                 err.response?.data || "An error occurred during signup. Please try again."
@@ -191,6 +200,24 @@ export const Signup = () => {
                             {errors.confirmPassword && (
                                 <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>
                             )}
+                        </div>
+
+                        <div className="mt-4">
+                            <label
+                                className="block mb-2 text-sm font-medium text-gray-600"
+                                htmlFor="signupRole"
+                            >
+                                Role
+                            </label>
+                            <select
+                                name="role"
+                                onChange={handleChange}
+                                value={signup.role}
+                                className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
+                            >
+                                <option value="user">User</option>
+                                <option value="farmer">Farmer</option>
+                            </select>
                         </div>
 
                         <div className="mt-6">
