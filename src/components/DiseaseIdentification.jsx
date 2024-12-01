@@ -41,25 +41,30 @@ const DiseaseIdentification = () => {
       const videoStream = await navigator.mediaDevices.getUserMedia({
         video: true,
       });
-
+  
       const videoElement = document.createElement("video");
       videoElement.srcObject = videoStream;
       videoElement.play();
-
+  
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
-
+  
       const capturePhoto = () => {
         canvas.width = videoElement.videoWidth;
         canvas.height = videoElement.videoHeight;
         context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-        const photoBlob = canvas.toBlob((blob) => {
+  
+        canvas.toBlob((blob) => {
           setPhoto(new File([blob], "photo.jpg", { type: "image/jpeg" }));
-          videoStream.getTracks().forEach((track) => track.stop()); // Stop the video stream
+          closeModal(); // Close modal after capturing photo
         }, "image/jpeg");
       };
-
+  
+      const closeModal = () => {
+        videoStream.getTracks().forEach((track) => track.stop()); // Stop the video stream
+        document.body.removeChild(modal);
+      };
+  
       const modal = document.createElement("div");
       modal.classList.add(
         "fixed",
@@ -73,24 +78,28 @@ const DiseaseIdentification = () => {
       modal.innerHTML = `
         <div class="bg-white p-6 rounded-lg shadow-lg">
           <video class="w-full rounded mb-4"></video>
-          <button id="capture-btn" class="px-4 py-2 bg-green-500 text-white rounded">Capture</button>
+          <div class="flex justify-between space-x-4">
+            <button id="capture-btn" class="px-4 py-2 bg-green-500 text-white rounded">Capture</button>
+            <button id="close-btn" class="px-4 py-2 bg-red-500 text-white rounded">Close</button>
+          </div>
         </div>
       `;
       document.body.appendChild(modal);
-
+  
       const videoContainer = modal.querySelector("video");
       videoContainer.srcObject = videoStream;
       videoContainer.play();
-
+  
       const captureBtn = modal.querySelector("#capture-btn");
-      captureBtn.addEventListener("click", () => {
-        capturePhoto();
-        document.body.removeChild(modal);
-      });
+      captureBtn.addEventListener("click", capturePhoto);
+  
+      const closeBtn = modal.querySelector("#close-btn");
+      closeBtn.addEventListener("click", closeModal);
     } catch (error) {
       console.error("Error accessing camera:", error);
     }
   };
+  
 
   return (
     <>
