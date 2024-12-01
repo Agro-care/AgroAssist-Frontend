@@ -12,7 +12,7 @@ const Fertilizer = () => {
   const [nitrogen, setNitrogen] = useState("");
   const [phosphorus, setPhosphorus] = useState("");
   const [potassium, setPotassium] = useState("");
-  const [city, setCity] = useState("");
+
   const [prediction, setPrediction] = useState("");
   const [lang, setLang] = useState("en"); // Default language is English
 
@@ -141,12 +141,7 @@ const Fertilizer = () => {
               type="text"
               placeholder="Enter humidity"
             />
-            <input
-              onChange={(e) => setCity(e.target.value)}
-              className="w-3/5 my-2 p-4"
-              type="text"
-              placeholder="Enter city"
-            />
+
 
             {/* Submit Button */}
             <div className="grid place-items-center mt-14">
