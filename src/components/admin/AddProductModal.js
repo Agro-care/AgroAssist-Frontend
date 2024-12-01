@@ -29,9 +29,11 @@ const AddProductModal = ({ isOpen, closeModal, newProduct, setNewProduct, fetchP
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to add product');
       }
+      if(response.ok){
 
-      const addedProduct = await response.json();
-      console.log('Product added successfully:', addedProduct);
+        window.location.reload();
+
+      }
 
       setSuccess('Product added successfully!'); // Set success message
 

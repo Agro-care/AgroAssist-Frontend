@@ -59,10 +59,14 @@ const ProductPage = ({ addToCart }) => {
 
             if (response.ok) {
                 const newReview = await response.json();
-                setReviews((prevReviews) => [...prevReviews, newReview]); // Update reviews dynamically
+
+                // Update reviews state dynamically
+                setReviews((prevReviews) => [
+                    ...prevReviews,
+                    { ...newReview, createdAt: newReview.createdAt || new Date().toISOString() },
+                ]);
                 setReviewText('');
                 setRating(5); // Reset rating
-                window.location.reload();
             } else {
                 console.error("Failed to submit review");
             }
@@ -125,7 +129,9 @@ const ProductPage = ({ addToCart }) => {
                             <li key={index} className="p-4 bg-gray-100 rounded-md shadow-md">
                                 <p className="text-sm text-gray-600">{review.text}</p>
                                 <p className="text-sm text-yellow-500">Rating: {review.rating} ★</p>
-                                <p className="text-sm text-gray-400">{new Date(review.createdAt).toLocaleDateString()}</p>
+                                <p className="text-sm text-gray-400">
+                                    {review.createdAt ? new Date(review.createdAt).toLocaleDateString() : 'Unknown date'}
+                                </p>
                             </li>
                         ))
                     ) : (
